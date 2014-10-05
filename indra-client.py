@@ -218,7 +218,7 @@ class Client(threading.Thread):
             print self.status
             pass
         
-    def run_offline_client(self,array_size = 8,random_number_base = 1000, sleep=1):
+    def run_offline_client(self,array_size = 1024,random_number_base = 1000, sleep=1):
         self.set_timediff(
             requests.get('http://indra.coolworld.me').json()['time']
         )
@@ -226,12 +226,12 @@ class Client(threading.Thread):
         while True:
             entry_data=[]
             for i in range(array_size):
-                entry_data.append(int(random.random() * random_number_base)+random_number_base/2)
+                entry_data.append(float(random.randrange(-random_number_base, random_number_base, 1)))
             self.raw_log = entry_data
 #            time_now = datetime.now()
 #            entry = {'time':str(time_now), 'values' : entry_data}
-
-            self.ship_biodata(post_to_server=False)
+            self.ship_to_server = False
+            self.ship_biodata()
             self.raw_log = []
             time.sleep(sleep)
         #generate3 random data
